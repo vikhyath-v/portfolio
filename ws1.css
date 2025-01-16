@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background-color: #fffcf9;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar */
+#nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #fff;
+    color: #6d435a;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#nav a {
+    text-decoration: none;
+    
+}
+#nav li{
+    list-style: none;
+}
+
+#nav a:hover {
+    color: #333;
+}
+
+/* Typography */
+h1 {
+    color: #6d435a;
+    margin: 20px 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+
+
+p {
+    font-size: 1rem;
+    margin: 10px 0 20px;
+}
+
+/* Profile Section */
+#banner {
+    position: relative;
+    height: 150px;
+}
+
+#pfp {
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+    margin: 20px 0;
+    border: 3px solid #4CAF50;
+    object-fit: cover;
+    position: absolute;
+    left: 20%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#name {
+    position: absolute;
+    right: 58%;
+    font-size: 2rem;
+    color: #6d435a;
+    font-weight: 600;
+}
+
+#about {
+    margin-top: 50px;
+    margin-right: 110px;
+}
+
+/* Education Section */
+#education {
+    margin-top: 100px;
+    padding: 20px 0;
+}
+
+#education h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#education p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Links Section */
+#links {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+#links li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+#links img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#links img:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Accessibility Enhancements */
+a:focus, img:focus {
+    outline: 2px solid #4CAF50;
+    outline-offset: 4px;
+}
