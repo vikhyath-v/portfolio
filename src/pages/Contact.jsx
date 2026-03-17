@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaLinkedin, FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,7 +52,7 @@ export default function Contact() {
       
       <div ref={linksRef} className="flex gap-8 md:gap-12">
         <a
-          href="https://linkedin.com/in/vikhyath"
+          href="https://www.linkedin.com/in/vikhyath-v-838b513a7/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-4xl md:text-5xl hover:text-blue-500 transition-colors duration-300"
@@ -68,15 +68,7 @@ export default function Contact() {
           <FaGithub />
         </a>
         <a
-          href="https://twitter.com/vikhyath"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-4xl md:text-5xl hover:text-blue-400 transition-colors duration-300"
-        >
-          <FaTwitter />
-        </a>
-        <a
-          href="https://instagram.com/vikhyath"
+          href="https://www.instagram.com/aastitva._/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-4xl md:text-5xl hover:text-pink-500 transition-colors duration-300"
