@@ -35,19 +35,27 @@ export default function Edits() {
       gsap.set(playhead, { left: "0%" });
     }
     
+    console.log("Fetching videos from Firestore...");
     getDocs(collection(db, "videos")).then((snap) => {
+      console.log("Firestore response - Document count:", snap.size);
       const videosWithThumbnails = snap.docs.map((doc) => {
         const data = doc.data();
-        const match = data.ytUrl.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);
+        console.log("Document data:", data);
+        const match = data.ytUrl.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|watch\?v=)([\w-]{11})/);
         const videoId = match ? match[1] : null;
+        console.log("Extracted video ID:", videoId);
         return {
           id: doc.id,
           ...data,
           thumbnail: videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : data.thumbnail
         };
       });
+      console.log("Final videos array:", videosWithThumbnails);
       setWorks(videosWithThumbnails);
-    }).catch(err => console.error("Error fetching videos:", err));
+    }).catch(err => {
+      console.error("Firestore error:", err);
+      console.error("Error details:", err.message);
+    });
   }, []);
 
   useEffect(() => {
