@@ -10,34 +10,38 @@ export default function Contact() {
   const linksRef = useRef(null);
 
   useEffect(() => {
-    gsap.fromTo(titleRef.current,
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top 80%"
+    const ctx = gsap.context(() => {
+      gsap.fromTo(titleRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 80%"
+          }
         }
-      }
-    );
+      );
 
-    gsap.fromTo(linksRef.current.children,
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: linksRef.current,
-          start: "top 75%"
+      gsap.fromTo(linksRef.current.children,
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: linksRef.current,
+            start: "top 75%"
+          }
         }
-      }
-    );
+      );
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (

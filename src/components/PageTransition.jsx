@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { gsap } from "gsap";
 
 export default function PageTransition() {
   const location = useLocation();
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const curtain = document.getElementById("page-curtain");

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
 export default function Edits() {
   const [hoveredProject, setHoveredProject] = useState(null);
@@ -10,6 +10,12 @@ export default function Edits() {
   const playerRef = useRef(null);
   const titleRef = useRef(null);
   const galleryRef = useRef(null);
+
+  // Extract YouTube video ID from various URL formats
+  const extractVideoId = (url) => {
+    const match = url.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|watch\?v=)([\w-]{11})/);
+    return match ? match[1] : null;
+  };
 
   useEffect(() => {
     const curtain = document.getElementById("page-curtain");
@@ -35,27 +41,21 @@ export default function Edits() {
       gsap.set(playhead, { left: "0%" });
     }
     
-    console.log("Fetching videos from Firestore...");
-    getDocs(collection(db, "videos")).then((snap) => {
-      console.log("Firestore response - Document count:", snap.size);
+    // Real-time listener — updates automatically when Firestore data changes
+    const unsubscribe = onSnapshot(collection(db, "videos"), (snap) => {
       const videosWithThumbnails = snap.docs.map((doc) => {
         const data = doc.data();
-        console.log("Document data:", data);
-        const match = data.ytUrl.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|watch\?v=)([\w-]{11})/);
-        const videoId = match ? match[1] : null;
-        console.log("Extracted video ID:", videoId);
+        const videoId = extractVideoId(data.ytUrl);
         return {
           id: doc.id,
           ...data,
           thumbnail: videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : data.thumbnail
         };
       });
-      console.log("Final videos array:", videosWithThumbnails);
       setWorks(videosWithThumbnails);
-    }).catch(err => {
-      console.error("Firestore error:", err);
-      console.error("Error details:", err.message);
     });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -81,8 +81,8 @@ export default function Edits() {
   }, [works]);
 
   const getYouTubeEmbed = (url) => {
-    const match = url.match(/(?:youtu\.be\/|v=|shorts\/)([\w-]{11})/);
-    return match ? `https://www.youtube.com/embed/${match[1]}?autoplay=1` : url;
+    const videoId = extractVideoId(url);
+    return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : url;
   };
 
   const handleVideoClick = (url) => {
@@ -102,6 +102,17 @@ export default function Edits() {
       onComplete: () => setPlayingVideo(null)
     });
   };
+
+  // Close video modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && playingVideo) {
+        closeVideo();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [playingVideo]);
 
   return (
     <section id="edits" className="min-h-screen flex flex-col justify-center items-center px-4 md:px-10 py-20">

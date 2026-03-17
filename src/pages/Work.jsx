@@ -11,34 +11,38 @@ export default function Work() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    gsap.fromTo(titleRef.current,
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top 80%"
+    const ctx = gsap.context(() => {
+      gsap.fromTo(titleRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 80%"
+          }
         }
-      }
-    );
+      );
 
-    gsap.fromTo(linksRef.current.children,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: linksRef.current,
-          start: "top 75%"
+      gsap.fromTo(linksRef.current.children,
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: linksRef.current,
+            start: "top 75%"
+          }
         }
-      }
-    );
+      );
+    });
+
+    return () => ctx.revert();
   }, []);
 
   const handleClick = (e, path) => {

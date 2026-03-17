@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -32,26 +32,16 @@ export default function Projects() {
       gsap.set(playhead, { left: "0%" });
     }
     
-    // Sample projects data
-    const sampleProjects = [
-      {
-        id: "1",
-        title: "Intent OS",
-        link: "https://medium.com/@bhatvikhyath31/intent-os-e6054e927da0"
-      },
-      {
-        id: "2", 
-        title: "EMQR",
-        link: "https://emqr.netlify.app/"
-      },
-      {
-        id: "3",
-        title: "Portfolio",
-        link: "https://vikhyath.pythonanywhere.com/"
-      }
-    ];
-    
-    setProjects(sampleProjects);
+    // Real-time listener for projects from Firestore
+    const unsubscribe = onSnapshot(collection(db, "projects"), (snap) => {
+      const projectsData = snap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProjects(projectsData);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
